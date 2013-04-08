@@ -2,6 +2,8 @@ Build howto
 -----------
 - sudo apt-get install avr-libc binutils-avr gcc-avr avrdude
 - make
+- make upload
+- disconnect programmer (slave rst, miso, mosi, sck)
 
 $ make
 avr-gcc  -mmcu=attiny85 -Wall -gdwarf-2 -std=gnu99 -DF_CPU=8000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -MD -MP -MT main.o -MF dep/main.o.d  -c  main.c
@@ -20,6 +22,42 @@ Program:    3228 bytes (39.4% Full)
 
 Data:         58 bytes (11.3% Full)
 (.data + .bss + .noinit)
+
+$ make upload 
+avrdude -c arduino -p attiny85 -P /dev/ttyUSB0 -b 19200 -U flash:w:irmp.hex
+
+avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+avrdude: AVR device initialized and ready to accept instructions
+
+Reading | ################################################## | 100% 0.02s
+
+avrdude: Device signature = 0x1e930b
+avrdude: NOTE: FLASH memory has been specified, an erase cycle will be performed
+         To disable this feature, specify the -D option.
+avrdude: erasing chip
+avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+avrdude: reading input file "irmp.hex"
+avrdude: input file irmp.hex auto detected as Intel Hex
+avrdude: writing flash (3224 bytes):
+
+Writing | ################################################## | 100% 5.48s
+
+avrdude: 3224 bytes of flash written
+avrdude: verifying flash memory against irmp.hex:
+avrdude: load data flash data from input file irmp.hex:
+avrdude: input file irmp.hex auto detected as Intel Hex
+avrdude: input file irmp.hex contains 3224 bytes
+avrdude: reading on-chip flash data:
+
+Reading | ################################################## | 100% 3.58s
+
+avrdude: verifying ...
+avrdude: 3224 bytes of flash verified
+
+avrdude: safemode: Fuses OK
+
+avrdude done.  Thank you.
+
 
 
 IR-Steckdose v0.5 ( by samstagssession@gmail.com )
